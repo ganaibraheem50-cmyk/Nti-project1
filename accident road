@@ -1,0 +1,58 @@
+from google.colab import files
+
+uploaded = files.upload()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+def create_visualizations(cleaned_road_accident_data.xlsx):
+    df = pd.read_excel(cleaned_road_accidet_data.xlsx)
+
+    sns.set_style("whitegrid")
+
+    plt.figure(figsize=(10, 6))
+    sns.countplot(data=df, x=\'Day_of_Week\', order=df[\'Day_of_Week\'].value_counts().index)
+    plt.title(\'Number of Accidents by Day of Week\')
+    plt.xlabel(\'Day of Week\')
+    plt.ylabel(\'Number of Accidents\')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig(\'accidents_by_day_of_week.png\')
+    plt.close()
+
+    plt.figure(figsize=(10, 6))
+    sns.histplot(df[\'Vehicle_Speed\'], bins=20, kde=True)
+    plt.title(\'Distribution of Vehicle Speed\')
+    plt.xlabel(\'Vehicle Speed\')
+    plt.ylabel(\'Frequency\')
+    plt.tight_layout()
+    plt.savefig(\'vehicle_speed_distribution.png\')
+    plt.close()
+
+    plt.figure(figsize=(12, 7))
+    sns.barplot(data=df, x=\'Type_of_Accident\', y=\'Num_Casualties\', estimator=sum, 
+                order=df.groupby(\'Type_of_Accident\')[\'Num_Casualties\'].sum().sort_values(ascending=False).index)
+    plt.title(\'Total Casualties by Type of Accident\')
+    plt.xlabel(\'Type of Accident\')
+    plt.ylabel(\'Total Casualties\')
+    plt.xticks(rotation=45, ha=\'right\')
+    plt.tight_layout()
+    plt.savefig(\'casualties_by_accident_type.png\')
+    plt.close()
+
+    plt.figure(figsize=(12, 7))
+    sns.countplot(data=df, x=\'Weather_Conditions\', order=df[\'Weather_Conditions\'].value_counts().index)
+    plt.title(\'Number of Accidents by Weather Conditions\')
+    plt.xlabel(\'Weather Conditions\')
+    plt.ylabel(\'Number of Accidents\')
+    plt.xticks(rotation=45, ha=\'right\')
+    plt.tight_layout()
+    plt.savefig(\'accidents_by_weather_conditions.png\')
+    plt.close()
+
+    print("Visualizations created and saved as PNG files.")
+
+if __name__ == \'__main__\':
+    file_path = \'road_accident_data_cleaned.xlsx\'
+    create_visualizations(file_path)
